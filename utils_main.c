@@ -6,11 +6,22 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:10:54 by opopov            #+#    #+#             */
-/*   Updated: 2025/05/28 16:54:20 by opopov           ###   ########.fr       */
+/*   Updated: 2025/05/29 13:11:22 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+void	print_philo_status(t_philos *philo, char *status)
+{
+	t_data	*data;
+
+	data =philo->data;
+	pthread_mutex_lock(&data->write_lock);
+	if (!data->is_stop)
+		printf("%ld %d %s\n", get_current_time() - data->start_time, philo->id, status);
+	pthread_mutex_unlock(&data->write_lock);
+}
 
 long	get_current_time()
 {

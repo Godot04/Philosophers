@@ -6,7 +6,7 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 16:04:42 by opopov            #+#    #+#             */
-/*   Updated: 2025/05/28 17:27:05 by opopov           ###   ########.fr       */
+/*   Updated: 2025/05/29 13:11:12 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ typedef struct s_data
 
 int		ft_atoi(char *str);
 long	get_current_time();
+void	*philosophers_routine(void *arg);
+void	*watchdog_routine();
+void	print_philo_status(t_philos *philo, char *status);
 
 
 #endif

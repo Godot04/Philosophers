@@ -6,33 +6,11 @@
 /*   By: opopov <opopov@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:31:15 by opopov            #+#    #+#             */
-/*   Updated: 2025/05/29 12:16:33 by opopov           ###   ########.fr       */
+/*   Updated: 2025/05/29 13:02:09 by opopov           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-void	*watchdog_routine()
-{
-
-}
-
-void	*philosophers_routine(void *arg)
-{
-	t_philos	*philo;
-	t_data		*data;
-
-	data = philo->data;
-	philo = (t_philos *)arg;
-	pthread_mutex_lock(&data->write_lock);
-	pthread_mutex_unlock(&data->write_lock);
-	while(1)
-	{
-		eat(); // to do
-		sleep(); // to do
-		think(); // to do
-	}
-}
 
 int	ft_start(t_data *data)
 {
