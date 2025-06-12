@@ -12,33 +12,29 @@
 
 #include "philosophers.h"
 
-void	eat(t_philos *philo)
+void	eat(t_philos **philo)
 {
 	t_data	*data;
 
-	data = philo->data;
-	// take forks
-	pthread_mutex_lock(philo->left_fork);
-	print_philo_status(philo, "has taken a left fork");
-	pthread_mutex_lock(philo->right_fork);
-	print_philo_status(philo, "has taken a right fork");
-	// eat
+	data = (*philo)->data;
 	pthread_mutex_lock(&data->meal_lock);
-	print_philo_status(philo, "is eating");
-	philo->last_meal_time = get_current_time();
+	print_philo_status((*philo), "is eating");
+	(*philo)->last_meal_time = get_current_time();
+	(*philo)->meals_eaten++;
 	pthread_mutex_unlock(&data->meal_lock);
 	usleep(data->time_to_eat * 1000);
-	// return forks to the start position
-	pthread_mutex_unlock(philo->left_fork);
-	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_unlock((*philo)->left_fork);
+	pthread_mutex_unlock((*philo)->right_fork);
 }
 
-void	sleep()
+void	sleep(t_philos *philo)
 {
-
+	t_data *data = philo->data;
+	print_philo_status(philo, "is sleeping");
+	usleep(data->time_to_sleep * 1000);
 }
 
-void	think()
+void	think(t_philos *philo)
 {
-
+	print_philo_status(philo, "is thinking");
 }

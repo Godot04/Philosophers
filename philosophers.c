@@ -36,7 +36,7 @@ int	ft_start(t_data *data)
 	return (0);
 }
 
-int	data_init(t_data *data, char **argv)
+int	data_init(t_data *data, char **argv, int argc)
 {
 	int	i;
 
@@ -44,8 +44,11 @@ int	data_init(t_data *data, char **argv)
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
+	if (argc == 6)
+		data->eat_counter = ft_atoi(argv[5]);
 	if (data->num_of_phil == -1 || data->time_to_die == -1
-		|| data->time_to_eat == -1 || data->time_to_sleep == -1)
+		|| data->time_to_eat == -1 || data->time_to_sleep == -1
+		|| (argc == 6 && data->eat_counter <= 0))
 		return (printf("Error: invalid variables data\n"));
 	pthread_mutex_init(&data->write_lock, NULL);
 	pthread_mutex_init(&data->meal_lock, NULL);
@@ -70,6 +73,7 @@ int	data_init(t_data *data, char **argv)
 		data->philos[i].right_fork = &data->forks[(i + 1) % data->num_of_phil];
 		data->philos[i].last_meal_time = 0;
 		data->philos[i].data = data;
+		data->philos[i].meals_eaten = 0;
 	}
 	data->is_stop = 0;
 	data->start_time = get_current_time();
@@ -98,11 +102,16 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	if (argc != 4)
+	if (argc != 5 && argc != 6)
 		return (printf("Error: invalid input\n"));
-	if (data_init(&data, argv) != 0)
+	memset(&data, 0, sizeof(t_data));
+	if (data_init(&data, argv, argc) != 0)
 		return (1);
-	ft_start(&data);
+	if (ft_start(&data) != 0)
+	{
+		free_all(&data);
+		return (1);
+	}
 	free_all(&data);
 	return (0);
 }
